@@ -1,0 +1,27 @@
+{
+    "cell_line": "K562",
+    "exon_buffer": "100",
+    "data_dir": "../data/",
+    "seed": 42,
+    "test_size": 0,
+    "valid_size": 0.2,
+    "max_depth": 18,
+    "n_jobs": 40,
+    "n_estimators": 10000,
+    "early_stopping_rounds": 10,
+    "early_stopping_size": 0.2,
+    "eval_metric": [
+        "rmse",
+        "logloss"
+    ],
+    "reg_alpha": 0.1,
+    "subsample": 1,
+    "colsample_bytree": 1,
+    "n_ensemble": 1,
+    "shap_sample_size": 10000,
+    "sample_size": 500000,
+    "annotate_cell_lines": false,
+    "compute_shap": false,
+    "model-uuid": "UUID",
+    "base_directory": "../models/"
+}
