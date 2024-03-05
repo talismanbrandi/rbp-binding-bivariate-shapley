@@ -16,7 +16,6 @@ import xgboost as xgb
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-os.chdir('/work/jdy/davin/rbp-binding-bivariate-shapley/scripts')
 from BivariateShapley.BivariateShapley.shapley_kernel import Bivariate_KernelExplainer
 from BivariateShapley.BivariateShapley.utils_shapley import g2h
 from xgbdt import *
