@@ -1,0 +1,3 @@
+[submodule "BivariateShapley"]
+	path = BivariateShapley
+	url = git@github.com:davinhill/BivariateShapley.git
