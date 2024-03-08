@@ -16,6 +16,7 @@ import xgboost as xgb
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+os.chdir('/home/davinhill/Code/rbp-binding-bivariate-shapley/')
 from BivariateShapley.BivariateShapley.shapley_kernel import Bivariate_KernelExplainer
 from BivariateShapley.BivariateShapley.utils_shapley import g2h
 from xgbdt import *
@@ -40,20 +41,19 @@ class val_function():
 # %% =====================================================
 # Load Model
 
-model_path = '/work/jdy/davin/rbp-binding-bivariate-shapley/models/bdt-xgb-models-HepG2-100-8414c135/HepG2-100-50-50-ensemble-models.pkl.xz'
+model_path = './models/bdt-xgb-models-HepG2-100-8414c135/HepG2-100-50-50-ensemble-models.pkl.xz'
 
 with lzma.open(model_path, mode='rb') as f:
     model_dict = pickle.load(f)
 model = model_dict['0']['model'] # select first model
 
-
 # %% =====================================================
 # Load Data
-config_path = '/work/jdy/davin/rbp-binding-bivariate-shapley/models/bdt-xgb-models-HepG2-100-8414c135/config-8414c135.json'
+model_path = '/home/davinhill/Code/rbp-binding-bivariate-shapley/models/bdt-xgb-models-K562-100-cf156139/K562-100-50-50-train-data.dat.xz'
 
-with open(config_path, 'r') as f:
-    config = json.load(f)
-df = load_data(config)
+with lzma.open(model_path, mode='rb') as f:
+    df = pd.read_csv(f)
+
 
 
 # %% =====================================================
