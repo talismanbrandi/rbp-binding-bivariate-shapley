@@ -1,3 +1,6 @@
 [submodule "BivariateShapley"]
 	path = BivariateShapley
 	url = git@github.com:davinhill/BivariateShapley.git
+[submodule "shared_utils"]
+	path = shared_utils
+	url = git@github.com:davinhill/shared_utils.git
