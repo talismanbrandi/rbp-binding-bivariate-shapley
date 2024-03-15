@@ -16,6 +16,7 @@ import xgboost as xgb
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+os.chdir('/home/davinhill/Code/rbp-binding-bivariate-shapley/')
 from BivariateShapley.BivariateShapley.shapley_kernel import Bivariate_KernelExplainer
 from BivariateShapley.BivariateShapley.utils_shapley import g2h
 from xgbdt import *
@@ -40,7 +41,7 @@ class val_function():
 # %% =====================================================
 # Load Model
 
-model_path = '/work/jdy/davin/rbp-binding-bivariate-shapley/models/bdt-xgb-models-HepG2-100-8414c135/HepG2-100-50-50-ensemble-models.pkl.xz'
+model_path = './models/bdt-xgb-models-HepG2-100-8414c135/HepG2-100-50-50-ensemble-models.pkl.xz'
 
 with lzma.open(model_path, mode='rb') as f:
     model_dict = pickle.load(f)
