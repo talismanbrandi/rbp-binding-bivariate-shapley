@@ -46,26 +46,34 @@ with lzma.open(model_path, mode='rb') as f:
     model_dict = pickle.load(f)
 model = model_dict['0']['model'] # select first model
 
-
 # %% =====================================================
 # Load Data
-config_path = '/work/jdy/davin/rbp-binding-bivariate-shapley/models/bdt-xgb-models-HepG2-100-8414c135/config-8414c135.json'
 
-with open(config_path, 'r') as f:
-    config = json.load(f)
-df = load_data(config)
+# train
+data_path = '/work/jdy/davin/rbp-binding-bivariate-shapley/models/bdt-xgb-models-HepG2-100-8414c135/HepG2-100-50-50-train-data.dat.xz'
+with lzma.open(data_path, mode='rb') as f:
+    df_train = pd.read_csv(f)
 
+# validation
+data_path = '/work/jdy/davin/rbp-binding-bivariate-shapley/models/bdt-xgb-models-HepG2-100-8414c135/HepG2-100-50-50-validation-data.dat.xz'
+
+with lzma.open(data_path, mode='rb') as f:
+    df_test = pd.read_csv(f)
+
+
+x_train = df_train.drop(['target'], axis = 1).values
+x_test = df_test.drop(['target', 'psi_hat'], axis = 1).values
 
 # %% =====================================================
 # Calculate Explanations
 
 # select samples
-x = df.iloc[0:1,:-1].values
-x_train = df.sample(n = 1000).values[:,:-1] # baseline samples for kernelshap
+x = x_test[0:5,:]
+baseline = x_train.mean(axis = 0).reshape(1,-1) # baseline when using fixed baseline
 
 # initialize explainer
 val = val_function(model)
-explainer = Bivariate_KernelExplainer(val, x_train) # initialize BivShap-K
+explainer = Bivariate_KernelExplainer(val, baseline) # initialize BivShap-K
 
 # Explain Sample
 shap = explainer.shap_values(x, l1_reg = False) # univariate shapley values (KernelShap)
@@ -74,12 +82,11 @@ bshap_G = explainer.phi_b # bivariate shapley values (G Graph)
 gamma = 1e-3 # threshold for generating H Graph. All edge weights < gamma in G graph are set to 1 in H Graph
 bshap_H = g2h(bshap_G, gamma) # bivariate shapley values (H Graph)
 
-
 # %% =====================================================
 # Plot Bivariate Shapley (G Graph)
 
 fig, axes = plt.subplots(1, 1, figsize=(40, 40), sharey=False, sharex = False)
-node_labels = df.columns[:-1]
+node_labels = df_train.columns[:-1]
 annot_flag = False
 
 min_value = min(shap.min(), bshap_G.min())
